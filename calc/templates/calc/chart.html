@@ -8,14 +8,12 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Carbon Dividend Calculator</title>
+    <meta charset="utf-8" />
+    <title>jQuery Shield UI Demos</title>
 
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.5/js/mdb.min.js"></script> 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-<!-- 
     <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
-     -->
 </head>
 
 <style>
@@ -73,7 +71,7 @@
 {% block 'content' %}
 
 <table class="table table-striped table-bordered">
-    <thread>
+	<thread>
     <tr><td>Benefit</td><td>{{ up.benefit }}</td></tr>
     <tr><td>Elec Cost</td><td>{{ up.elec_cost }}</td></tr>
     <tr><td>Gasoline Cost</td><td>{{ up.gasoline_cost }}</td></tr>
@@ -88,48 +86,78 @@
     </div>
 </div>
 
-<div class="col-md-5">
-    <canvas id="myChart" ></canvas>
+
+<div id="chart"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Bar Series</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="chart1"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Multiple Bar Series</h3>
+                </div>
+                <div id="chart2" class="panel-body">
+                </div>
+            </div>
+        </div>
+    </div>   
 </div>
 
-<script>
-var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["Electricity", "Gasoline", "Heating", "Total"],
-        datasets: [{
-            label: 'Monthly cost increase in dollars',
-            data: [{{ up.elec_cost }}, {{ up.gasoline_cost }}, {{ up.heating_cost }}, {{ up.total_cost }}],
-            backgroundColor: [
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                // 'rgba(255, 206, 86, 0.2)',
-                // 'rgba(75, 192, 192, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(75, 255, 192, 0.2)'
-            ],
-            borderColor: [
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                // 'rgba(75, 192, 192, 1)',
-                // 'rgba(153, 102, 255, 1)',
-                'rgba(75, 192, 192, 1)',
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
+<!-- you need to include the shieldui css and js assets in order for the charts to work -->
+<link rel="stylesheet" type="text/css" href="http://www.shieldui.com/shared/components/latest/css/light/all.min.css" />
+<script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        // var data1 = [up.elec_cost , up.gasoline_cost, up.heating_cost, up.total_cost];
+        var data1 = [12, 3, 4, 2, 12, 3, 4, 17, 22, 34, 54, 67];
+        var data2 = [3, 9, 12, 14, 22, 32, 45, 12, 67, 45, 55, 7];
+        var data3 = [23, 19, 11, 134, 242, 352, 435, 22, 637, 445, 555, 57];
+            
+        $("#chart1").shieldChart({
+            exportOptions: {
+                image: false,
+                print: false
+            },
+            axisY: {
+                title: {
+                    text: "Break-Down for selected quarter"
                 }
+            },
+            dataSeries: [{
+                seriesType: "bar",
+                data: data1
             }]
-        }
-    }
-});
+        });
+
+        $("#chart2").shieldChart({
+            exportOptions: {
+                image: false,
+                print: false
+            },
+            axisY: {
+                title: {
+                    text: "Break-Down for selected quarter"
+                }
+            },
+            dataSeries: [{
+                seriesType: "bar",
+                data: data2
+            }, {
+                seriesType: "bar",
+                data: data3
+            }]
+        });
+    });
 </script>
 
 </body>
